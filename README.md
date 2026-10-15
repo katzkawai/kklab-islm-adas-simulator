@@ -4,9 +4,12 @@
 
 > **Note:** このサイトおよびシミュレーターは **Gemini 4 Argon** で作成されました (Created with **Gemini 4 Argon**)。
 
-## 公開デモ (GitHub Pages)
+## 公開デモ・学習教材 (GitHub Pages)
 
-- **URL**: https://katzkawai.org/kklab-islm-adas-simulator/ （または https://katzkawai.github.io/kklab-islm-adas-simulator/）
+- **Webシミュレーター**: https://katzkawai.org/kklab-islm-adas-simulator/ （または https://katzkawai.github.io/kklab-islm-adas-simulator/）
+- **講義・演習用テキスト (PDF)**: [textbook.pdf](https://katzkawai.org/kklab-islm-adas-simulator/textbook.pdf)
+- **LuaLaTeXソース**: [`textbook.tex`](./textbook.tex)
+  - 著者：河合 勝彦（名古屋市立大学大学院経済学研究科 `kkawai@econ.nagoya-cu.ac.jp`）
 
 ## モデルの仕様と教育的テーマ
 

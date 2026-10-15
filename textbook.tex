@@ -1,0 +1,377 @@
+\documentclass[lualatex,a4paper,11pt,ja=standard]{bxjsarticle}
+
+% ============================================================================
+% Packages for LuaLaTeX (Japanese Academic Textbook / Handout Style)
+% ============================================================================
+\usepackage{amsmath,amssymb,amsfonts,bm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,patterns}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{left=22mm,right=22mm,top=24mm,bottom=24mm}
+
+% Color Definitions matching the Web Simulator UI
+\definecolor{simbg}{HTML}{0F172A}
+\definecolor{simblue}{HTML}{0284C7}
+\definecolor{simsky}{HTML}{38BDF8}
+\definecolor{simrose}{HTML}{E11D48}
+\definecolor{simamber}{HTML}{D97706}
+\definecolor{simemerald}{HTML}{059669}
+\definecolor{simpurple}{HTML}{7C3AED}
+\definecolor{simslate}{HTML}{334155}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=simblue,
+  urlcolor=simblue,
+  citecolor=simblue,
+  pdftitle={インタラクティブ・シミュレーターで学ぶ日本のマクロ経済：IS-LM / AD-ASモデルによる流動性の罠・デフレ・インフレ転換の動学分析},
+  pdfauthor={河合 勝彦（名古屋市立大学大学院経済学研究科）}
+}
+
+% Custom tcolorbox environments for pedagogical structure
+\newtcolorbox{theorybox}[2][]{
+  enhanced,
+  breakable,
+  colback=simblue!5!white,
+  colframe=simblue!80!black,
+  fonttitle=\bfseries,
+  title={【理論の核心】#2},
+  arc=2mm,
+  boxrule=0.8pt,
+  #1
+}
+
+\newtcolorbox{simbox}[2][]{
+  enhanced,
+  breakable,
+  colback=simemerald!5!white,
+  colframe=simemerald!80!black,
+  fonttitle=\bfseries,
+  title={【シミュレーター演習】#2},
+  arc=2mm,
+  boxrule=0.8pt,
+  #1
+}
+
+\newtcolorbox{questionbox}[2][]{
+  enhanced,
+  breakable,
+  colback=simamber!6!white,
+  colframe=simamber!85!black,
+  fonttitle=\bfseries,
+  title={【考察課題】#2},
+  arc=2mm,
+  boxrule=0.8pt,
+  #1
+}
+
+% ============================================================================
+% Title & Author Information
+% ============================================================================
+\title{%
+  \vspace{-10mm}
+  {\normalsize\bfseries マクロ経済学インタラクティブ演習教材}\\[2mm]
+  {\LARGE\bfseries インタラクティブ・シミュレーターで学ぶ日本のマクロ経済}\\[2mm]
+  {\large ― 非線形IS-LM / AD-ASモデルによる「流動性の罠」・デフレ予想・インフレ転換の解明 ―}
+}
+
+\author{%
+  \textbf{河合 勝彦}\\
+  {\small 名古屋市立大学大学院経済学研究科}\\
+  {\small \texttt{<kkawai@econ.nagoya-cu.ac.jp>}}
+}
+
+\date{\small 2026年10月（作成補助：Gemini 4 Argon）}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent
+本教材は、ウェブブラウザ上で動作する「日本マクロ経済 IS-LM / AD-AS インタラクティブ・シミュレーター」\footnote{%
+シミュレーター公開URL：\url{https://katzkawai.org/kklab-islm-adas-simulator/} （GitHubリポジトリ：\url{https://github.com/katzkawai/kklab-islm-adas-simulator}）}
+を用い、1990年代末以降の日本経済が直面したマクロ経済政策上の重要論点を視覚的・数理的に体験学習するための講義・演習用テキストである。標準的な入門マクロ経済学では直線で描かれることが多いLM曲線を、名目金利の実効下限制約（ゼロ金利・マイナス金利制約）を反映した\textbf{非線形関数}として定式化し、さらに\textbf{フィッシャー方程式（期待インフレ率と実質金利の関係）}を組み込むことで、（1）なぜデフレ下の流動性の罠において伝統的な金融緩和が総需要を押し上げにくかったのか、（2）なぜその局面で財政出動がクラウディング・アウトを引き起こさないのか、（3）2013年以降の異次元金融緩和（リフレ政策）や2022年以降のコストプッシュ型インフレ転換がどのような経路で日本経済を動かしたのかを体系的に学ぶ。
+\end{abstract}
+
+\tableofcontents
+\vspace{4mm}
+\hrule
+\vspace{6mm}
+
+% ============================================================================
+\section{はじめに：なぜ「非線形LM曲線」と「期待インフレ率」なのか？}
+% ============================================================================
+
+学部初級・中級レベルのマクロ経済学で学ぶ標準的なIS-LMモデルでは、財市場の均衡を表すIS曲線が右下がりの直線、貨幣市場の均衡を表すLM曲線が右上がりの直線として描かれる。そして、拡張的財政政策（政府支出 $G$ の増加）を行うと名目金利が上昇し、民間投資 $I$ が減少する「クラウディング・アウト（押出効果）」が生じる一方、金融緩和（マネーサプライ $M$ の増加）を行えば名目金利が低下して民間投資と実質GDP $Y$ が拡大すると説明される。
+
+しかし、1990年代末から2020年代初頭にかけての約25年間の日本経済を観察すると、この「標準的な直線型IS-LMモデル」だけでは説明しがたい2つの大きなパズルが存在した。
+
+\begin{enumerate}[label=\textbf{パズル\arabic*:},leftmargin=22mm]
+  \item \textbf{ゼロ金利制約と「流動性の罠（Liquidity Trap）」}\\
+  日本銀行が短期政策金利をほぼ $0\%$（2016年以降は $-0.1\%$）まで引き下げ、マネタリーベースやマネーサプライを大幅に拡大しても、名目金利はそれ以上低下せず、総需要（実質GDP $Y$）の拡大効果が著しく減衰した。
+  \item \textbf{デフレ予想による実質金利の高止まり}\\
+  名目金利 $i$ がほぼ $0\%$ という超低金利であるにもかかわらず、企業の設備投資 $I$ が長らく低迷した。その背景には、物価が継続的に下落する\textbf{デフレ予想（$\pi^e < 0$）}の下で、企業が直面する\textbf{実質金利 $r = i - \pi^e$} がプラス圏で高止まりしていたことがある。
+\end{enumerate}
+
+本教材で用いるシミュレーターは、この2つのメカニズムを明示的に数理モデルへ組み込み、スライダー操作と歴史的プリセットによって直感的に理解できるよう設計されている。
+
+% ============================================================================
+\section{シミュレーターの理論モデル（数理仕様）}
+% ============================================================================
+
+シミュレーターの背後で計算されている連立方程式体系（IS曲線・非線形LM曲線・フィッシャー方程式・AD-AS曲線）を確認しておこう。
+
+\subsection{財市場とIS曲線（フィッシャー方程式の組み込み）}
+
+財市場の均衡条件（総生産 $Y =$ 総需要 $C + I + G$）は以下で与えられる。
+\begin{align}
+  Y &= C + I + G \label{eq:goods_eq} \\
+  C &= C_0 + c(1 - t)Y \label{eq:consumption} \\
+  I &= I_0 - b r \label{eq:investment} \\
+  r &= i - \pi^e \quad \text{（フィッシャー方程式）} \label{eq:fisher}
+\end{align}
+ここで各変数の意味とシミュレーターでの単位は以下の通りである。
+\begin{itemize}[noitemsep]
+  \item $Y$: 実質GDP（兆円、潜在GDPは $Y^* = 550$ 兆円に設定）
+  \item $C_0$: 基礎消費（兆円）、$c \in (0,1)$: 限界消費性向、$t$: 消費税・所得税率（租税負担率）
+  \item $I_0$: 企業のアニマルスピリット（独立投資、兆円）、$b > 0$: 投資の利子弾力性（実質金利感度）
+  \item $G$: 政府支出（兆円）
+  \item $i$: 名目金利（$\%$）、$\pi^e$: 期待インフレ率（$\%$）、$r$: 実質金利（$\%$）
+\end{itemize}
+
+式\eqref{eq:goods_eq}〜\eqref{eq:fisher}を整理すると、実質GDP $Y$ と名目金利 $i$ の関係を表す\textbf{IS曲線}が得られる。
+\begin{equation}
+  Y = \alpha \Bigl[ (C_0 + I_0 + G) - b(i - \pi^e) \Bigr], \qquad
+  \text{ただし乗数 } \alpha \equiv \frac{1}{1 - c(1 - t)}
+  \label{eq:IS_Y}
+\end{equation}
+縦軸に名目金利 $i$ をとる逆関数形で書けば、IS曲線は次のようになる。
+\begin{equation}
+  i_{\mathrm{IS}}(Y) = \pi^e + \frac{(C_0 + I_0 + G) - Y / \alpha}{b}
+  \label{eq:IS_i}
+\end{equation}
+
+\begin{theorybox}{デフレ予想（$\pi^e < 0$）がIS曲線に与える影響}
+式\eqref{eq:IS_i}から明らかなように、期待インフレ率 $\pi^e$ が低下してマイナス（デフレ予想：$\pi^e < 0$）になると、同じ名目金利 $i$ の下でも実質金利 $r = i - \pi^e$ が上昇するため、民間投資 $I = I_0 - b(i - \pi^e)$ が減少する。図の上では、\textbf{デフレ予想の深化（$\pi^e$ の低下）は名目金利空間 $(Y, i)$ におけるIS曲線を下方（左方）へシフトさせる}。
+\end{theorybox}
+
+\subsection{貨幣市場と非線形LM曲線（流動性の罠の定式化）}
+
+現金には名目金利 $0\%$ が保証されているため、政策金利や債券の名目利回り $i$ には実効的な下限 $i_{\min}$（シミュレーターではマイナス金利政策を考慮し $i_{\min} = -0.10\%$）が存在する。名目金利 $i$ がこの下限 $i_{\min}$ に近づくと、債券を持つことの魅力が消失し、貨幣の投機的需要が無限大に発散する（流動性の罠）。
+
+これを表現するため、実質貨幣需要関数 $L(Y, i)$ を双曲線項を含む非線形関数として定式化する。
+\begin{equation}
+  \frac{M}{P} = L(Y, i) = k Y + \frac{h}{i - i_{\min}} - L_0 \qquad (i > i_{\min})
+  \label{eq:money_demand}
+\end{equation}
+ここで $M$ は名目マネーサプライ、$P$ は物価水準（基準値 $100$）、$k > 0$ は取引需要の所得感度、$h > 0$ は投機的貨幣需要の利子感度パラメータ、$L_0$ は基準定数である。式\eqref{eq:money_demand}を名目金利 $i$ について解くと、\textbf{非線形LM曲線}が得られる。
+\begin{equation}
+  i_{\mathrm{LM}}(Y, P) = i_{\min} + \frac{h}{(M/P) + L_0 - kY}
+  \label{eq:LM_i}
+\end{equation}
+
+式\eqref{eq:LM_i}の形状には2つの極限領域が存在する（図\ref{fig:islm_concept}参照）。
+\begin{enumerate}
+  \item \textbf{流動性の罠領域（低 $Y$ または大 $M/P$）}: $(M/P) + L_0 - kY$ が十分に大きいとき、右辺第2項は $0$ に近づき、$i_{\mathrm{LM}} \approx i_{\min}$ となって\textbf{LM曲線はほぼ水平}になる。
+  \item \textbf{通常〜古典派領域（高 $Y$ または小 $M/P$）}: 経済活動 $Y$ が拡大して貨幣の取引需要 $kY$ が実質貨幣残高に迫ると、分母が小さくなり、名目金利 $i$ が急上昇して\textbf{LM曲線は急勾配（右上がり〜垂直）}となる。
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.05, >=Stealth]
+  % Axes
+  \draw[->, thick, simslate] (0,0) -- (10.5,0) node[right, font=\small\bfseries] {実質GDP $Y$};
+  \draw[->, thick, simslate] (0,-0.8) -- (0,5.2) node[above, font=\small\bfseries] {名目金利 $i$, 実質金利 $r$};
+
+  % i_min horizontal line
+  \draw[dashed, simblue!70] (0,0.3) node[left, font=\footnotesize] {$i_{\min}$} -- (10.2,0.3);
+
+  % Potential GDP Y*
+  \draw[dashdotted, gray] (7.2,-0.5) -- (7.2,4.8) node[above, font=\footnotesize] {潜在GDP $Y^*$};
+
+  % Non-linear LM Curve (M0)
+  \draw[very thick, simblue, domain=0.5:8.1, samples=80]
+    plot (\x, {0.3 + 1.8/(8.7 - \x)});
+  \node[simblue, font=\footnotesize\bfseries, right] at (8.1, 3.4) {LM($M_0$)};
+
+  % Shifted Non-linear LM Curve (M1 > M0)
+  \draw[very thick, simsky, dashed, domain=0.5:9.3, samples=80]
+    plot (\x, {0.3 + 1.8/(9.9 - \x)});
+  \node[simsky!80!black, font=\footnotesize\bfseries, right] at (9.3, 3.4) {LM($M_1 > M_0$)};
+
+  % IS Curve in Liquidity Trap (Deflationary)
+  \draw[very thick, simrose] (1.2, 3.6) -- (5.8, -0.3) node[below right, font=\footnotesize\bfseries] {IS (デフレ期 $G_0$)};
+
+  % Shifted IS Curve via Fiscal Expansion (G1 > G0)
+  \draw[very thick, simrose!70, dashed] (2.8, 3.6) -- (7.4, -0.3) node[below right, font=\footnotesize\bfseries] {IS' (財政出動 $G_1$)};
+
+  % Real interest rate r point (when pi^e < 0, r = i - pi^e > i)
+  \fill[simblue] (4.35, 0.71) circle (2.5pt) node[below left, font=\footnotesize] {$E_0$};
+  \fill[simamber] (4.35, 2.01) circle (2.5pt) node[above right, font=\footnotesize\bfseries] {実質金利 $r_0 = i_0 - \pi^e$};
+  \draw[<->, thick, simamber] (4.35, 0.78) -- (4.35, 1.94) node[midway, left, font=\scriptsize] {$-\pi^e > 0$};
+
+  % Shifted Equilibrium with Fiscal Policy E1
+  \fill[simrose] (5.85, 0.93) circle (2.5pt) node[below right, font=\footnotesize] {$E_1$};
+
+  % Brace for Liquidity Trap region
+  \draw[decorate, decoration={brace, mirror, amplitude=5pt}, thick, simslate]
+    (0.6, -0.65) -- (5.6, -0.65) node[midway, below=5pt, font=\footnotesize\bfseries] {流動性の罠領域（LMがほぼ水平：$\Delta M$ 無効・$\Delta G$ 有効）};
+\end{tikzpicture}
+\caption{非線形LM曲線における「流動性の罠」とデフレ予想による実質金利の高止まり}
+\label{fig:islm_concept}
+\end{figure}
+
+\subsection{総需要（AD）・総供給（AS）と一般均衡}
+
+IS式\eqref{eq:IS_i}とLM式\eqref{eq:LM_i}から名目金利 $i$ を消去し、各物価水準 $P$ に対応する財・貨幣市場同時均衡の産出量 $Y$ を求めたものが\textbf{総需要（AD）曲線} $Y = Y_{\mathrm{AD}}(P)$ である。物価 $P$ が上昇すると実質貨幣残高 $M/P$ が減少してLM曲線が左上方へシフトするため、AD曲線は右下がりとなる（ただし流動性の罠の深部ではLMシフトの影響が小さいため、AD曲線の傾きは急になる）。
+
+一方、短期の\textbf{総供給（SRAS）曲線}は、期待物価・期待インフレ率 $\pi^e$、GDPギャップ $(Y - Y^*)/Y^*$、および資源高や円安などの外生的な供給コストショック $\varepsilon_s$ に依存するフィリップス曲線型の供給関数として与えられる。
+\begin{equation}
+  P_{\mathrm{AS}}(Y) = P^e(1 + \pi^e) + \gamma \frac{Y - Y^*}{Y^*} + \varepsilon_s
+  \label{eq:AS}
+\end{equation}
+
+% ============================================================================
+\section{シミュレーターの基本操作ガイド}
+% ============================================================================
+
+ブラウザでシミュレーター（\url{https://katzkawai.org/kklab-islm-adas-simulator/}）を開くと、画面は左右2ペインで構成されている。
+
+\begin{table}[htbp]
+\centering
+\caption{シミュレーター左ペインの操作パラメータ一覧と経済学的意味}
+\label{tab:sliders}
+\small
+\begin{tabular}{@{}llccp{6.8cm}@{}}
+\toprule
+\textbf{記号} & \textbf{パラメータ名} & \textbf{初期基準値} & \textbf{操作範囲} & \textbf{変化させたときの主な作用} \\
+\midrule
+$G$ & 政府支出 & $110$ 兆円 & $60 \sim 180$ & 増加するとIS曲線・AD曲線が右へシフト。財政赤字 $(G - T)$ が拡大。 \\
+$t$ & 消費税・所得税率 & $22.0\%$ & $10 \sim 38\%$ & 引き上げるとケインズ乗数 $\alpha$ が縮小し、IS曲線が左回転・シフト。 \\
+$M$ & マネーサプライ & $280$ 兆円 & $160 \sim 520$ & 増加するとLM曲線が右へシフト（流動性の罠では水平部が延長）。 \\
+$\pi^e$ & 期待インフレ率 & $+0.5\%$ & $-2.5 \sim +4.0\%$ & 上昇すると実質金利 $r = i - \pi^e$ が低下してISが右シフト、同時にASが上方シフト。 \\
+$b$ & 投資の利子弾力性 & $16.0$ & $4.0 \sim 32.0$ & 大きいほど実質金利 $r$ の変化に対する民間投資 $I$ の反応が鋭敏になり、IS曲線が緩やかになる。 \\
+$I_0$ & アニマルスピリット & $105$ 兆円 & $55 \sim 160$ & 企業の成長期待や独立投資意欲。増加するとIS曲線・AD曲線が右へシフト。 \\
+$\varepsilon_s$ & 供給コストショック & $0.0\%$ & $-1.5 \sim +3.5\%$ & 資源価格高騰や円安による輸入コスト増。上昇するとAS曲線が上方（左方）へシフト。 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{比較基準（破線）の固定機能}
+画面右上の\textbf{「現在値を比較基準(破線)に固定」}ボタンをクリックすると、その時点のIS曲線・LM曲線・AD曲線・AS曲線および均衡点 $E_0$ がグレーの破線としてロックされる。その後にスライダーを動かすと、\textbf{政策変更前（破線 $E_0$）と政策変更後（実線 $E_1$）の比較静学}を一目で確認できる。
+
+% ============================================================================
+\section{日本の歴史的局面で学ぶ3つのケーススタディ}
+% ============================================================================
+
+左ペイン上部に配置された3つの「日本の歴史的局面プリセット」ボタンを順にクリックしながら、日本経済の歩みとマクロ経済メカニズムを検証しよう。
+
+% ----------------------------------------------------------------------------
+\subsection{局面① 1990年代末〜：デフレと流動性の罠（\texorpdfstring{$\pi^e < 0$}{πe < 0}, 金利下限）}
+% ----------------------------------------------------------------------------
+
+バブル崩壊後のバランスシート調整や金融システム不安を経て、1990年代末の日本経済は慢性的な総需要不足とデフレに陥った。日本銀行は1999年にゼロ金利政策を導入したが、民間設備投資は回復せず、デフレが定着した。
+
+\begin{simbox}{演習1：流動性の罠における金融政策の限界と財政政策の有効性}
+\begin{enumerate}[leftmargin=6mm]
+  \item 左ペインのプリセット\textbf{「① 1990年代末〜：デフレと流動性の罠」}をクリックする。
+  \item 上段のIS-LM図を観察せよ。均衡点 $E_1$ では名目金利 $i$ が約 $0.16\%$ と下限近くに張り付いている一方、期待インフレ率が $\pi^e = -1.5\%$（デフレ予想）であるため、黄色のひし形マーカーで示される\textbf{実質金利 $r = i - \pi^e$ は $+1.66\%$ と高止まり}していることを確認する。
+  \item 画面右上の\textbf{「現在値を比較基準(破線)に固定」}ボタンを押す。
+  \item \textbf{【実験A：マネーサプライ $M$ の拡大】} マネーサプライ $M$ のスライダーを $310$ 兆円から $450$ 兆円まで右へ動かしてみよ。LM曲線は右へシフトするが、IS曲線と交差しているのはLM曲線の「水平に近い領域」であるため、名目金利 $i$ はほとんど下がらず、実質GDP $Y$ もわずか数兆円しか増加しないことを確認せよ。
+  \item 一度プリセット①に戻して基準を固定し直し、今度は\textbf{【実験B：政府支出 $G$ の拡大】} 政府支出 $G$ を $104$ 兆円から $140$ 兆円へ引き上げてみよ。IS曲線が右へシフトしても名目金利 $i$ がほとんど上昇しないため、\textbf{民間投資 $I$ が減少しない（クラウディング・アウトが起きない）}まま、実質GDP $Y$ が大きく拡大することを確認せよ。
+\end{enumerate}
+\end{simbox}
+
+\begin{theorybox}{なぜ流動性の罠ではクラウディング・アウトが起きないのか？}
+通常の右上がりのLM領域では、政府支出 $G$ の増加による所得 $Y$ の拡大が取引貨幣需要 $kY$ を増やし、貨幣市場の逼迫を通じて名目金利 $i$ を上昇させる（これが民間投資 $I$ を押し出すクラウディング・アウトの原因である）。しかし、流動性の罠の下では民間部門が大量の遊休貨幣（超過準備や退蔵現金）を抱えているため、取引需要が増えても金利 $i$ が上昇せず、ケインズ乗数 $\alpha$ が減衰することなくフルに作用する。
+\end{theorybox}
+
+% ----------------------------------------------------------------------------
+\subsection{局面② 2013年〜：異次元金融緩和（\texorpdfstring{$M$}{M} の大幅増と \texorpdfstring{$\pi^e$}{πe} の引き上げ試行）}
+% ----------------------------------------------------------------------------
+
+2013年4月、黒田東彦総裁のもとで日本銀行は「量的・質的金融緩和（QQE：異次元金融緩和）」を導入し、「2\%の物価安定目標」を掲げてマネタリーベースを急拡大させた。これはアベノミクスの「第一の矢（大胆な金融政策）」と「第二の矢（機動的な財政政策）」に対応する。
+
+\begin{simbox}{演習2：「量（$M$）」と「期待（$\pi^e$）」の役割分解}
+\begin{enumerate}[leftmargin=6mm]
+  \item プリセット\textbf{「② 2013年〜：異次元金融緩和（アベノミクス）」}をクリックする。このプリセットでは、比較基準（破線 $E_0$）に1990年代末のデフレ均衡が自動的にセットされ、そこからの変化が表示される。
+  \item 実質GDP $Y$ が大きく回復し、民間投資 $I$ が増加していることを確認せよ。なぜ演習1の実験Aでは効かなかった金融緩和が、ここでは効果を発揮しているのか？
+  \item その理由を確かめるため、\textbf{期待インフレ率 $\pi^e$ のスライダーだけを $+1.2\%$ から $-1.5\%$（デフレ予想）へ戻してみよ}。たとえマネーサプライ $M = 450$ 兆円・政府支出 $G = 122$ 兆円のままであっても、$\pi^e$ がマイナスのままだと実質金利 $r$ が跳ね上がり、民間投資 $I$ と実質GDP $Y$ が大きく落ち込むことがわかる。
+\end{enumerate}
+\end{simbox}
+
+\begin{theorybox}{リフレ政策（期待に働きかける金融政策）の伝達経路}
+名目金利 $i$ が下限 $i_{\min}$ に制約されてこれ以上下げられない局面でも、中央銀行が将来のインフレ目標に強くコミットして人々の\textbf{期待インフレ率 $\pi^e$ を引き上げる}ことができれば、フィッシャー方程式
+\[
+  \Delta r = \underbrace{\Delta i}_{\approx 0} - \Delta \pi^e < 0
+\]
+を通じて\textbf{実質金利 $r$ をマイナス圏まで引き下げる}ことができる。これにより民間投資 $I(r)$ が刺激され、IS曲線が右上方へシフトする。一方で、なぜ実際の日本経済で $2\%$ のインフレ期待形成に長い時間を要したのか（適合的期待の強さや企業の投資弾力性 $b$・独立投資 $I_0$ の低迷）も、スライダー $b$ や $I_0$ を動かすことで検証できる。
+\end{theorybox}
+
+% ----------------------------------------------------------------------------
+\subsection{局面③ 2022年〜：コストプッシュとインフレ転換（ASシフトと \texorpdfstring{$\pi^e > 0$}{πe > 0}）}
+% ----------------------------------------------------------------------------
+
+2022年以降、ウクライナ情勢等に伴う国際資源・エネルギー価格の高騰と急速な円安進行により、日本経済は強い輸入コストプッシュ・ショック（$\varepsilon_s > 0$）に直面した。これを契機に物価上昇率が $2\%$ を超えて推移し、企業の価格設定行動や賃上げ期待にも変化が生じ、長らく続いたゼロ・マイナス金利政策からの転換（金利のある世界への復帰）が始まった。
+
+\begin{simbox}{演習3：コストプッシュ・インフレと「金利のある世界」への離陸}
+\begin{enumerate}[leftmargin=6mm]
+  \item プリセット\textbf{「③ 2022年〜：コストプッシュとインフレ転換」}をクリックする。
+  \item 下段左の\textbf{AD-AS図}に注目せよ。供給コストショック（$\varepsilon_s = +2.4\%$）と期待インフレ率の上昇（$\pi^e = +2.2\%$）によって、緑色の\textbf{AS曲線がシフト前（破線）から大きく上方へシフト}し、均衡物価水準 $P$ が上昇していることを確認する。
+  \item 次に上段の\textbf{IS-LM図}を見よ。マネーサプライ $M$ を増やしていなくても、物価 $P$ の上昇によって\textbf{実質マネーサプライ $M/P$ が減少}したことでLM曲線が左上方へシフトし、さらにIS曲線の右上方シフトと相まって、均衡点 $E_1$ がLM曲線の水平部（流動性の罠）を抜け出し、\textbf{右上がりの領域（名目金利 $i > 0$）へ離陸}していることを確認せよ。
+  \item この状態で政府支出 $G$ のスライダーをさらに右へ動かしてみよ。局面①（流動性の罠）のときとは異なり、名目金利 $i$ が明確に上昇し、クラウディング・アウトが生じ始めることを確認できる。
+\end{enumerate}
+\end{simbox}
+
+% ============================================================================
+\section{発展演習とレポート・ディスカッション課題}
+% ============================================================================
+
+本シミュレーターを用いて、以下の政策シミュレーション課題に取り組み、グラフの変化とマクロ変数（GDPギャップ・民間投資・財政赤字）の数値変化を根拠として自分の考察をまとめよ。
+
+\begin{questionbox}{課題1：日本企業の「投資の利子非感応性（低 $b$）」仮説の検証}
+日本経済において金融緩和や実質金利低下の効果が限定的であったもう一つの要因として、「少子高齢化や国内市場縮小予想のもとで、そもそも企業の設備投資が金利に対して非感応的（$b$ が小さい）であり、かつアニマルスピリット $I_0$ が低下していた」という構造要因説がある。
+\begin{itemize}[leftmargin=5mm,noitemsep]
+  \item プリセット②（2013年異次元緩和）を選択した状態で、「現在値を比較基準(破線)に固定」せよ。
+  \item 投資の利子弾力性 $b$ を $16.0$ から $6.0$ へ下げたとき、および独立投資 $I_0$ を $96$ 兆円から $75$ 兆円へ下げたとき、IS曲線の傾きと位置、および均衡GDP $Y$ はどのように変化するか？
+  \item このような経済構造のもとでGDPギャップを解消するには、金融政策・財政政策・成長戦略（$I_0$ の引き上げ）をどのように組み合わせるべきか論じよ。
+\end{itemize}
+\end{questionbox}
+
+\begin{questionbox}{課題2：流動性の罠の下での消費増税（$t$ の引き上げ）の効果}
+1997年、2014年、2019年と、日本は低金利・デフレ脱却途上の局面で段階的に消費税率を引き上げてきた。
+\begin{itemize}[leftmargin=5mm,noitemsep]
+  \item プリセット①または②の状態を基準（破線）として固定し、税率スライダー $t$ を $22.0\%$ から $27.0\%$ へ引き上げてみよ。
+  \item 下段右のバーチャートで「財政赤字 $(G - T)$」と「GDPギャップ $(Y - Y^*)$」の変化を読み取れ。税率 $t$ を $5\%$ ポイント引き上げたとき、財政赤字は当初意図したほど縮小するか？（ヒント：分母である実質GDP $Y$ の縮小による税収 $T = tY$ の目減り効果に注目せよ）。
+\end{itemize}
+\end{questionbox}
+
+\begin{questionbox}{課題3：スタグフレーション（悪性コストプッシュ）への政策対応のジレンマ}
+\begin{itemize}[leftmargin=5mm,noitemsep]
+  \item 標準均衡にリセットし、「現在値を比較基準(破線)に固定」した上で、供給コストショック $\varepsilon_s$ のみを $0.0\%$ から $+3.5\%$ へ引き上げてみよ（純粋な負の供給ショック）。
+  \item このとき物価水準 $P$ と実質GDP $Y$ はそれぞれどう変化するか（スタグフレーションの確認）。
+  \item この局面で（A）物価上昇を抑えるために金融引き締め（$M$ の削減）を行った場合と、（B）景気後退を防ぐために財政出動（$G$ の拡大）を行った場合のそれぞれについて、GDPギャップと物価水準 $P$ に生じるトレードオフをシミュレーターで確かめて説明せよ。
+\end{itemize}
+\end{questionbox}
+
+\vfill
+\noindent\rule{\linewidth}{0.4pt}
+{\footnotesize
+\noindent
+\textbf{教材・シミュレーター情報}\\
+著者：河合 勝彦（名古屋市立大学大学院経済学研究科 \texttt{kkawai@econ.nagoya-cu.ac.jp}）\\
+Webシミュレーター：\url{https://katzkawai.org/kklab-islm-adas-simulator/}\\
+GitHubリポジトリ：\url{https://github.com/katzkawai/kklab-islm-adas-simulator}\\
+※ 本シミュレーターおよび本教材のドラフト作成には \textbf{Gemini 4 Argon} を活用しています。
+}
+
+\end{document}
