@@ -12,6 +12,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <!-- KaTeX (LaTeX Math Rendering) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -356,14 +360,14 @@
         </div>
 
         <!-- Model Equations Box -->
-        <div class="mt-2 pt-3 border-t border-slate-800/80 text-[11px] text-slate-400 space-y-1 font-mono bg-slate-950/60 p-3 rounded-lg border border-slate-800/60">
+        <div class="mt-2 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 space-y-1.5 bg-slate-950/60 p-3 rounded-lg border border-slate-800/60">
           <div class="text-slate-300 font-sans font-semibold mb-1 flex items-center justify-between">
             <span>構造方程式（非線形LM・フィッシャー組込）</span>
-            <span class="text-[10px] text-sky-400 font-mono">Y* (潜在GDP) = 550兆円</span>
+            <span class="text-[10px] text-sky-400">$Y^* = 550\text{ 兆円}$</span>
           </div>
-          <div><span class="text-rose-400">IS:</span> Y = C₀ + c(1 - t)Y + I₀ - b(i - π<sup>e</sup>) + G</div>
-          <div><span class="text-sky-400">LM:</span> M/P = kY - h / (i - i<sub>min</sub>) &nbsp;⇒&nbsp; i = i<sub>min</sub> + h / (kY - M/P)</div>
-          <div><span class="text-amber-400">Fisher:</span> r = i - π<sup>e</sup> &nbsp;|&nbsp; <span class="text-emerald-400">AS:</span> P = P<sup>e</sup>(1 + π<sup>e</sup>) + γ(Y - Y*)/Y* + ε<sub>s</sub></div>
+          <div><span class="text-rose-400 font-semibold">IS:</span> $Y = C_0 + c(1 - t)Y + I_0 - b(i - \pi^e) + G$</div>
+          <div><span class="text-sky-400 font-semibold">LM:</span> $\frac{M}{P} = kY + \frac{h}{i - i_{\min}} - L_0 \implies i = i_{\min} + \frac{h}{(M/P) + L_0 - kY}$</div>
+          <div><span class="text-amber-400 font-semibold">Fisher:</span> $r = i - \pi^e$ &nbsp;|&nbsp; <span class="text-emerald-400 font-semibold">AS:</span> $P = P^e(1 + \pi^e) + \gamma\frac{Y - Y^*}{Y^*} + \varepsilon_s$</div>
         </div>
       </section>
     </aside>
@@ -913,6 +917,16 @@
           `LM曲線が右上がりの勾配を持つ通常領域（<span class="font-mono text-sky-300">i = ${currEq.i.toFixed(2)}%</span>, <span class="font-mono text-amber-300">r = ${currEq.r.toFixed(2)}%</span>）です。` +
           `この領域では金融緩和（$M$ 増加）が名目金利 $i$ の低下を通じて民間投資 $I$ と実質GDP $Y$ を有効に押し上げる一方、政府支出 $G$ の拡大は名目金利の上昇を伴い、民間投資の一部を押し出す<strong>クラウディング・アウト</strong>が発生します。`;
       }
+
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(commentEl, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
     }
 
     // ============================================================================
@@ -1394,6 +1408,15 @@
 
     // Initialize on load
     window.addEventListener('DOMContentLoaded', () => {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
       applyPreset('1990s');
     });
 
