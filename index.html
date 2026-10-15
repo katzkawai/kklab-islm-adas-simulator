@@ -699,11 +699,11 @@
 
     /**
      * Short-Run Aggregate Supply (SRAS) Curve:
-     *   P_AS(Y) = P_base * (1 + 0.01 * (pi_e + cost)) + gamma * ((Y - Y_star) / Y_star) * 10
+     *   P_AS(Y) = P_base + expectedShift + slope * (Y - Y_star)
      */
     function calcAS_P(Y, params) {
-      const expectedShift = (params.pie + params.cost) * 1.6;
-      const outputGapTerm = ECON.gamma * ((Y - ECON.Y_star) / ECON.Y_star) * 100 * 0.12;
+      const expectedShift = (params.pie + params.cost) * 1.8;
+      const outputGapTerm = 0.08 * (Y - ECON.Y_star);
       return ECON.P_base + expectedShift + outputGapTerm;
     }
 
