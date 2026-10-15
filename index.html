@@ -118,13 +118,13 @@
             </span>
           </div>
           <p class="text-xs text-slate-400">
-            非線形LM曲線（実効下限制約 $i_{\min}$）とフィッシャー方程式（$r = i - \pi^e$）による流動性の罠・デフレ脱却・インフレ転換の動学分析
+            非線形LM曲線（実効下限制約 $i_{\min}$）とフィッシャー関係（$r = i - \pi^e$）による流動性の罠・デフレ脱却・インフレ転換の比較静学
           </p>
         </div>
       </div>
 
       <!-- Quick Action Buttons -->
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <a href="textbook.pdf" target="_blank" rel="noopener noreferrer"
           class="px-3 py-1.5 rounded-lg text-xs font-medium bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition flex items-center gap-1.5"
           title="解説・演習教材PDF（河合勝彦 著）を開きます">
@@ -153,7 +153,7 @@
   <main class="max-w-[1600px] w-full mx-auto px-4 lg:px-6 py-4 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5">
 
     <!-- LEFT PANE: Controls & Presets (4 cols on lg) -->
-    <aside class="lg:col-span-4 xl:col-span-4 flex flex-col gap-4">
+    <aside class="lg:col-span-4 xl:col-span-4 min-w-0 flex flex-col gap-4">
 
       <!-- Historical Presets Section -->
       <section class="glass-panel rounded-xl p-4 shadow-xl">
@@ -180,7 +180,7 @@
               </span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
-              名目金利は下限（$i \approx 0\%$）に張り付く一方、デフレ予想（$\pi^e = -1.5\%$）で実質金利 $r$ が高止まり。民間投資が冷え込み、財政出動 $G$ のみがクラウディング・アウトなしで有効な局面。
+              名目金利は下限近傍（$i \approx 0\%$）にある一方、デフレ予想（$\pi^e = -1.5\%$）で実質金利 $r$ が高止まり。貨幣量拡大の効果が小さく、財政出動 $G$ による投資の押し出しも小さい局面。
             </p>
           </button>
 
@@ -196,7 +196,7 @@
               </span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
-              流動性の罠の下でマネーサプライ $M$ を大幅拡大してもLM曲線の水平部のみが伸びるが、期待インフレ率 $\pi^e$ のプラス転換（実質金利 $r$ 低下）と財政出動 $G$ の組み合わせで総需要を押し上げる試行。
+              流動性の罠の下でマネーサプライ $M$ を大幅拡大してもLM曲線の水平に近い部分が広がるが、期待インフレ率 $\pi^e$ のプラス転換（実質金利 $r$ 低下）と財政出動 $G$ の組み合わせで総需要を押し上げる試行。
             </p>
           </button>
 
@@ -212,7 +212,7 @@
               </span>
             </div>
             <p class="text-[11px] text-slate-400 mt-1 leading-relaxed">
-              資源高・円安による供給コスト増（AS曲線の上方シフト）とインフレ期待定着（$\pi^e = +2.2\%$）。実質金利は大幅マイナスとなり、名目金利がゼロ金利制約から離陸し始める転換期。
+              資源高・円安による供給コスト増（AS曲線の上方シフト）とインフレ期待（$\pi^e = +2.2\%$）を仮定。2022年以降を模式化した比較であり、実際のマイナス金利政策の解除は2024年3月。
             </p>
           </button>
         </div>
@@ -256,7 +256,7 @@
               <div class="flex justify-between items-center mb-1">
                 <label for="slider-t" class="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
                   <span class="w-2 h-2 rounded-full bg-rose-400"></span>
-                  消費税・所得税率 (<span class="font-mono">t</span>)
+                  比例所得税率（簡略化）(<span class="font-mono">t</span>)
                 </label>
                 <div class="font-mono text-xs font-bold text-rose-300 bg-rose-500/10 px-2 py-0.5 rounded border border-rose-500/20">
                   <span id="val-t">22.0</span> %
@@ -308,15 +308,15 @@
               </div>
             </div>
 
-            <!-- 5. Interest Elasticity of Investment (b) -->
+            <!-- 5. Interest Sensitivity of Investment (b) -->
             <div class="bg-slate-900/60 p-2.5 rounded-lg border border-slate-800/80">
               <div class="flex justify-between items-center mb-1">
                 <label for="slider-b" class="text-xs font-semibold text-slate-200 flex items-center gap-1.5">
                   <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  投資の利子弾力性 (<span class="font-mono">b</span>)
+                  投資の金利感応度 (<span class="font-mono">b</span>)
                 </label>
                 <div class="font-mono text-xs font-bold text-emerald-300 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                  <span id="val-b">16.0</span>
+                  <span id="val-b">16.0</span> 兆円/%pt
                 </div>
               </div>
               <input id="slider-b" type="range" min="4" max="32" step="0.5" value="16" oninput="onSliderInput()" />
@@ -338,7 +338,7 @@
                   <span id="val-I0">105</span> 兆円
                 </div>
               </div>
-              <input id="slider-I0" type="range" min="55" max="160" step="2" value="105" oninput="onSliderInput()" />
+              <input id="slider-I0" type="range" min="55" max="160" step="1" value="105" oninput="onSliderInput()" />
               <div class="flex justify-between text-[10px] text-slate-500 mt-1">
                 <span>設備投資萎縮 (55兆)</span>
                 <span>成長期待・投資意欲</span>
@@ -354,34 +354,37 @@
                   供給コストショック (<span class="font-mono">ASシフト要因 ε<sub>s</sub></span>)
                 </label>
                 <div class="font-mono text-xs font-bold text-orange-300 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
-                  <span id="val-cost">0.0</span> %
+                  <span id="val-cost">0.0</span> （モデル単位）
                 </div>
               </div>
               <input id="slider-cost" type="range" min="-1.5" max="3.5" step="0.1" value="0.0" oninput="onSliderInput()" />
               <div class="flex justify-between text-[10px] text-slate-500 mt-1">
-                <span>技術革新 (-1.5%)</span>
+                <span>コスト低下 (-1.5)</span>
                 <span>資源高・円安によるAS上方シフト</span>
-                <span>コストプッシュ (+3.5%)</span>
+                <span>コストプッシュ (+3.5)</span>
               </div>
             </div>
           </div>
         </div>
 
         <!-- Model Equations Box -->
-        <div class="mt-2 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 space-y-1.5 bg-slate-950/60 p-3 rounded-lg border border-slate-800/60">
+        <div class="mt-2 pt-3 border-t border-slate-800/80 text-[11px] text-slate-300 space-y-1.5 bg-slate-950/60 p-3 rounded-lg border border-slate-800/60 overflow-x-auto">
           <div class="text-slate-300 font-sans font-semibold mb-1 flex items-center justify-between">
             <span>構造方程式（非線形LM・フィッシャー組込）</span>
             <span class="text-[10px] text-sky-400">$Y^* = 550\text{ 兆円}$</span>
           </div>
           <div><span class="text-rose-400 font-semibold">IS:</span> $Y = C_0 + c(1 - t)Y + I_0 - b(i - \pi^e) + G$</div>
-          <div><span class="text-sky-400 font-semibold">LM:</span> $\frac{M}{P} = kY + \frac{h}{i - i_{\min}} - L_0 \implies i = i_{\min} + \frac{h}{(M/P) + L_0 - kY}$</div>
-          <div><span class="text-amber-400 font-semibold">Fisher:</span> $r = i - \pi^e$ &nbsp;|&nbsp; <span class="text-emerald-400 font-semibold">AS:</span> $P = P^e(1 + \pi^e) + \gamma\frac{Y - Y^*}{Y^*} + \varepsilon_s$</div>
+          <div><span class="text-sky-400 font-semibold">LM:</span> $m = M\frac{100}{P},\quad d = m + 165 - 0.58Y$</div>
+          <div>$S(d) = \frac{d + \sqrt{d^2 + 4(6.5)^2}}{2},\quad i = -0.10 + \frac{48}{S(d)}$</div>
+          <div><span class="text-amber-400 font-semibold">Fisher（近似）:</span> $r = i - \pi^e$</div>
+          <div><span class="text-emerald-400 font-semibold">AS:</span> $P = 100 + 1.8(\pi^e + \varepsilon_s) + 0.08(Y - 550)$</div>
+          <p class="text-slate-400">税率は式では小数、金利・期待インフレ率は % 表示値を使用。供給ショックはモデル単位。歴史的プリセットは説明用の仮定値で、実績の再現・予測ではありません。投資は線形近似のため極端な設定では負値となり、設備投資額としての解釈範囲を外れます。</p>
         </div>
       </section>
     </aside>
 
     <!-- RIGHT PANE: KPIs + 2 Stacked Plotly Charts (8 cols on lg) -->
-    <section class="lg:col-span-8 xl:col-span-8 flex flex-col gap-4">
+    <section class="lg:col-span-8 xl:col-span-8 min-w-0 flex flex-col gap-4">
 
       <!-- Top KPI Strip + Dynamic Economic Commentary -->
       <div class="glass-panel rounded-xl p-4 shadow-xl">
@@ -466,18 +469,18 @@
               <span id="kpi-P">100.0</span> <span class="text-xs font-normal text-slate-400">指数</span>
             </div>
             <div id="kpi-real-money" class="text-[10px] font-mono mt-0.5 text-slate-400">
-              実質残高 M/P
+              実質残高 M×100/P
             </div>
           </div>
         </div>
 
         <!-- Educational Mechanism Banner -->
-        <div class="bg-slate-900/80 border border-slate-800 rounded-lg px-3.5 py-2.5 flex items-start gap-3">
+        <div class="bg-slate-900/80 border border-slate-800 rounded-lg px-3.5 py-2.5 flex flex-wrap sm:flex-nowrap items-start gap-3">
           <div id="regime-indicator" class="mt-0.5 px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30 whitespace-nowrap">
             メカニズム解説
           </div>
-          <p id="economic-commentary" class="text-xs text-slate-300 leading-relaxed">
-            スライダーまたは歴史的プリセットを選択すると、流動性の罠・クラウディング・アウトの有無・フィッシャー効果による実質金利の変動メカニズムがここにリアルタイム解説されます。
+          <p id="economic-commentary" class="min-w-0 text-xs text-slate-300 leading-relaxed">
+            スライダーまたは歴史的プリセットを選択すると、流動性の罠・クラウディング・アウトの有無・フィッシャー関係による実質金利の変動メカニズムがここにリアルタイム解説されます。
           </p>
         </div>
       </div>
@@ -491,10 +494,10 @@
               上段：IS-LM分析グラフ（非線形LM曲線・名目金利 $i$ と実質金利 $r = i - \pi^e$）
             </h3>
             <p class="text-[11px] text-slate-400">
-              破線（グレー）＝シフト前の基準均衡、実線＝現在の曲線。紫点線は現在均衡における実質金利 $r$ の水準を示します。
+              破線（グレー）＝比較基準、実線＝現在の曲線（各状態の均衡物価で描画）。黄色点線はIS上の実質金利 $r$、黄色ひし形は均衡実質金利です。
             </p>
           </div>
-          <div class="flex items-center gap-3 text-[11px]">
+          <div class="flex flex-wrap items-center gap-3 text-[11px]">
             <span class="flex items-center gap-1 text-rose-400 font-medium">
               <span class="w-3 h-0.5 bg-rose-400 inline-block"></span> IS曲線 (名目 i)
             </span>
@@ -525,7 +528,7 @@
             </p>
           </div>
           <!-- View Switcher for Lower Pane -->
-          <div class="inline-flex rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs">
+          <div class="inline-flex flex-wrap rounded-lg bg-slate-900 p-0.5 border border-slate-800 text-xs">
             <button id="tab-split" onclick="setLowerView('split')"
               class="px-2.5 py-1 rounded-md font-medium bg-sky-500/20 text-sky-300 border border-sky-500/30 transition">
               2画面同時表示 (AD-AS + バー)
@@ -570,12 +573,15 @@
     const ECON = {
       C0: 85,          // 基礎消費 (兆円)
       c: 0.62,         // 限界消費性向
-      k: 0.58,         // 貨幣需要の所得弾力性パラメータ
+      k: 0.58,         // 貨幣需要の所得感応度
       h: 48.0,         // 貨幣需要の利子感度パラメータ (非線形双曲線項)
       i_min: -0.10,    // 名目金利の実効下限 (マイナス金利制約 -0.10%)
       Y_star: 550.0,   // 潜在GDP Y* (兆円)
       P_base: 100.0,   // 基準物価指数
-      gamma: 18.0,     // 短期AS曲線の傾き係数 (フィリップス曲線勾配)
+      L0: 165.0,       // 貨幣需要の基準定数
+      minSlack: 6.5,  // LM分母の平滑化パラメータ
+      asShift: 1.8,    // 期待インフレ率・コストショックのASシフト係数
+      asSlope: 0.08,   // 産出量1兆円あたりの物価指数変化
       Y_min: 380,      // グラフ描画範囲 Y最小
       Y_max: 720       // グラフ描画範囲 Y最大
     };
@@ -583,7 +589,7 @@
     // Historical Presets Definition
     const PRESETS = {
       standard: {
-        name: '標準均衡（中立状態）',
+        name: '標準設定（比較用）',
         G: 110,
         t: 22.0,
         M: 280,
@@ -626,8 +632,6 @@
 
     // Baseline state (shown as dashed grey curves for shift comparison)
     let baselineParams = { ...PRESETS.standard };
-    let currentPresetKey = 'standard';
-    let lowerViewMode = 'split';
 
     // ============================================================================
     // 2. Core IS-LM & AD-AS Mathematical Solver
@@ -660,40 +664,21 @@
 
     /**
      * Non-linear LM Curve (Liquidity Trap model):
-     *   Real money demand: L(Y, i) = k * Y - h / (i - i_min)
-     *   Real money supply: M_real = M * (100 / P)
-     *   Solving L(Y, i) = M_real for nominal interest rate i:
-     *     k * Y - M_real = h / (i - i_min)
-     *     i_LM(Y, P) = i_min + h / (k * Y - M_real)   for k * Y > M_real
-     *   To keep the function smooth & continuous across low Y (deep liquidity trap),
-     *   we use a smooth floor hyperbola:
-     *     denom = max(k * Y - M_real, 6.0) -> smoothly approaches i_min as Y decreases.
-     *   Specifically, using smooth softplus saturation so i approaches i_min asymptotically:
+     *   m = M * P_base / P; d = m + L0 - k * Y
+     *   S(d) = (d + sqrt(d^2 + 4 * minSlack^2)) / 2
+     *   i_LM = i_min + h / S(d)
+     * For d >> minSlack this approaches the hyperbola i_min + h / d.
+     * S stays positive, so LM remains increasing and above i_min even for d <= 0.
+     * Equivalent money demand, q = i - i_min > 0:
+     *   m = k * Y + h / q - minSlack^2 * q / h - L0.
      */
     function calcLM_i(Y, P, params) {
       const realM = params.M * (ECON.P_base / P);
-      const gap = ECON.k * Y - realM;
-      // Smooth positive denominator: sqrt(gap^2 + s^2) + gap ensures C-infinity smoothness
-      // When gap << 0 (excess money supply / liquidity trap), effective_gap is small positive -> wait:
-      // In L(Y, i) = kY - h/(i - i_min) = M/P:
-      // Actually, as i -> i_min+, L(Y, i) -> -infinity? Wait!
-      // Let's check the sign carefully!
-      // Money demand increases when Y increases (+kY) and increases when i approaches i_min (+h/(i - i_min))!
-      // Because at low interest rates, people hold MORE money (speculative demand for money goes to infinity as i -> i_min).
-      // Let's verify:
-      //   M/P = L(Y, i) = k * Y + h / (i - i_min) - L0
-      //   => h / (i - i_min) = M/P + L0 - k * Y
-      //   => i = i_min + h / (M/P + L0 - k * Y) !
-      // Let's check the derivatives of i = i_min + h / (M_eff - k * Y):
-      //   1. As Y increases, (M_eff - k * Y) decreases, so i INCREASES! (Upward sloping LM curve: di/dY > 0)
-      //   2. As Y becomes small or M becomes very large, (M_eff - k * Y) becomes very large, so h / (M_eff - k * Y) -> 0,
-      //      meaning i -> i_min (horizontal liquidity trap at low Y or high M/P)!
-      //   3. As Y approaches M_eff / k from below, i rises sharply (vertical classical range of LM)!
-      const L0 = 165.0; // Base money demand offset so standard M=280 aligns around Y=550
-      const slack = realM + L0 - ECON.k * Y;
-      // Smoothly clamp minimum slack so LM doesn't go to infinity or negative on the right side
-      const minSlack = 6.5;
-      const smoothSlack = 0.5 * (slack + Math.sqrt(slack * slack + 4 * minSlack * minSlack));
+      const slack = realM + ECON.L0 - ECON.k * Y;
+      const root = Math.hypot(slack, 2 * ECON.minSlack);
+      // Rationalize the negative branch to avoid subtractive cancellation.
+      const smoothSlack = slack >= 0 ? 0.5 * (slack + root)
+        : 2 * ECON.minSlack ** 2 / (root - slack);
       return ECON.i_min + ECON.h / smoothSlack;
     }
 
@@ -702,25 +687,27 @@
      *   P_AS(Y) = P_base + expectedShift + slope * (Y - Y_star)
      */
     function calcAS_P(Y, params) {
-      const expectedShift = (params.pie + params.cost) * 1.8;
-      const outputGapTerm = 0.08 * (Y - ECON.Y_star);
+      const expectedShift = (params.pie + params.cost) * ECON.asShift;
+      const outputGapTerm = ECON.asSlope * (Y - ECON.Y_star);
       return ECON.P_base + expectedShift + outputGapTerm;
     }
 
-    /**
-     * Solve IS-LM Equilibrium Y for a given Price Level P:
-     *   Find Y such that calcIS_i(Y, params) == calcLM_i(Y, P, params)
-     *   Since IS is strictly decreasing in Y (di_IS/dY < 0) and LM is strictly increasing in Y (di_LM/dY > 0),
-     *   there is a unique global intersection! Bisection is guaranteed to converge rapidly.
-     */
-    function solveISLM_for_P(P, params) {
-      let low = 200.0;
-      let high = 950.0;
-      for (let iter = 0; iter < 50; iter++) {
+    // At i_min goods demand bounds Y from above. Check that the root is bracketed;
+    // never silently report an endpoint as an equilibrium.
+    function solveOutput(params, priceAtOutput) {
+      let low = 0;
+      let high = getAlpha(params) * (getAutonomousDemand(params) - params.b * (ECON.i_min - params.pie));
+      const residual = Y => {
+        const P = priceAtOutput(Y);
+        if (!(P > 0)) throw new RangeError('物価水準は正である必要があります。');
+        return calcIS_i(Y, params) - calcLM_i(Y, P, params);
+      };
+      if (!(high > low && residual(low) >= 0 && residual(high) <= 0)) {
+        throw new RangeError('正の産出量の範囲に均衡を挟めません。');
+      }
+      for (let iter = 0; iter < 60; iter++) {
         const mid = 0.5 * (low + high);
-        const diff = calcIS_i(mid, params) - calcLM_i(mid, P, params);
-        if (diff > 0) {
-          // IS > LM => equilibrium is at higher Y
+        if (residual(mid) > 0) {
           low = mid;
         } else {
           high = mid;
@@ -729,30 +716,20 @@
       const Y_eq = 0.5 * (low + high);
       const i_eq = calcIS_i(Y_eq, params);
       const r_eq = i_eq - params.pie;
-      return { Y: Y_eq, i: i_eq, r: r_eq, P };
+      return { Y: Y_eq, i: i_eq, r: r_eq, P: priceAtOutput(Y_eq) };
     }
 
     /**
-     * Solve Full AD-AS & IS-LM Joint Equilibrium:
-     *   Find P such that Y_AD(P) == Y_AS(P), i.e., P == calcAS_P(solveISLM_for_P(P).Y)
+     * Fixed-price IS-LM equilibrium (points on AD).
      */
+    function solveISLM_for_P(P, params) {
+      return solveOutput(params, () => P);
+    }
+
+    // Substitute SRAS into LM. With upward SRAS the residual is strictly decreasing
+    // in Y; one bisection solves the joint equilibrium without fixed price bounds.
     function solveFullEquilibrium(params) {
-      let pLow = 70.0;
-      let pHigh = 140.0;
-      for (let iter = 0; iter < 45; iter++) {
-        const pMid = 0.5 * (pLow + pHigh);
-        const islm = solveISLM_for_P(pMid, params);
-        const pSupply = calcAS_P(islm.Y, params);
-        // AD has Y decreasing in P, so as pMid increases, islm.Y decreases, and pSupply decreases.
-        // Thus f(P) = P - pSupply(Y_AD(P)) is strictly increasing in P.
-        if (pMid < pSupply) {
-          pLow = pMid;
-        } else {
-          pHigh = pMid;
-        }
-      }
-      const P_eq = 0.5 * (pLow + pHigh);
-      const eq = solveISLM_for_P(P_eq, params);
+      const eq = solveOutput(params, Y => calcAS_P(Y, params));
 
       // Compute derived macroeconomic aggregates at equilibrium
       const taxRate = params.t / 100.0;
@@ -765,7 +742,7 @@
 
       // Measure LM slope at equilibrium (di/dY) to diagnose Liquidity Trap intensity
       const dY = 1.0;
-      const lmSlope = (calcLM_i(eq.Y + dY, P_eq, params) - calcLM_i(eq.Y - dY, P_eq, params)) / (2 * dY);
+      const lmSlope = (calcLM_i(eq.Y + dY, eq.P, params) - calcLM_i(eq.Y - dY, eq.P, params)) / (2 * dY);
 
       return {
         ...eq,
@@ -825,7 +802,7 @@
     }
 
     function formatDelta(val, digits = 1, unit = '') {
-      if (Math.abs(val) < 0.03) return `<span class="text-slate-500">±0.0${unit}</span>`;
+      if (Math.abs(val) < 0.5 * 10 ** -digits) return `<span class="text-slate-500">±${(0).toFixed(digits)}${unit}</span>`;
       const sign = val > 0 ? '+' : '';
       const color = val > 0 ? 'text-emerald-400' : 'text-rose-400';
       return `<span class="${color}">${sign}${val.toFixed(digits)}${unit}</span>`;
@@ -865,14 +842,18 @@
       const dG = params.G - baselineParams.G;
       const dI = currEq.I - baseEq.I;
       const crowdEl = document.getElementById('kpi-crowding');
-      if (dG > 2 && Math.abs(currEq.i - baseEq.i) < 0.12) {
-        crowdEl.textContent = 'クラウディング・アウトほぼゼロ';
+      const onlyGChanged = ['t', 'M', 'pie', 'b', 'I0', 'cost'].every(key => params[key] === baselineParams[key]);
+      if (dG > 0 && onlyGChanged && Math.abs(dI) < 0.05) {
+        crowdEl.textContent = `投資減は小幅 (${dI.toFixed(2)}兆)`;
         crowdEl.className = 'text-[10px] font-mono mt-0.5 text-emerald-400';
-      } else if (dG > 2 && dI < -1.5) {
-        crowdEl.textContent = `金利上昇で投資減 (${dI.toFixed(1)}兆)`;
+      } else if (dG > 0 && onlyGChanged && dI < 0) {
+        crowdEl.textContent = `金利上昇による投資減 (${dI.toFixed(2)}兆)`;
         crowdEl.className = 'text-[10px] font-mono mt-0.5 text-rose-400';
+      } else if (dG > 0 && !onlyGChanged) {
+        crowdEl.textContent = '複数要因の比較（G以外も変化）';
+        crowdEl.className = 'text-[10px] font-mono mt-0.5 text-slate-400';
       } else {
-        crowdEl.textContent = `実質金利負担: ${( -params.b * currEq.r ).toFixed(1)}兆円`;
+        crowdEl.textContent = `金利項 −br: ${(-params.b * currEq.r).toFixed(1)}兆円`;
         crowdEl.className = 'text-[10px] font-mono mt-0.5 text-slate-400';
       }
 
@@ -883,16 +864,19 @@
       if (currEq.fiscalDeficit > 0) {
         fiscalStatus.textContent = `歳出超過 (赤字 ${currEq.fiscalDeficit.toFixed(1)}兆円)`;
         fiscalStatus.className = 'text-[10px] font-mono mt-0.5 text-rose-400';
-      } else {
+      } else if (currEq.fiscalDeficit < 0) {
         fiscalStatus.textContent = `プライマリー黒字 (${Math.abs(currEq.fiscalDeficit).toFixed(1)}兆円)`;
         fiscalStatus.className = 'text-[10px] font-mono mt-0.5 text-emerald-400';
+      } else {
+        fiscalStatus.textContent = '財政収支均衡';
+        fiscalStatus.className = 'text-[10px] font-mono mt-0.5 text-slate-400';
       }
 
       // 6. Price Level P
       document.getElementById('kpi-P').textContent = currEq.P.toFixed(1);
       document.getElementById('delta-P').innerHTML = formatDelta(currEq.P - baseEq.P, 1, 'pt');
-      const realM = params.M * (100 / currEq.P);
-      document.getElementById('kpi-real-money').textContent = `実質M/P = ${realM.toFixed(0)}兆円`;
+      const realM = params.M * (ECON.P_base / currEq.P);
+      document.getElementById('kpi-real-money').textContent = `実質M×100/P = ${realM.toFixed(0)}兆円`;
 
       // Dynamic Economic Commentary
       const regimeEl = document.getElementById('regime-indicator');
@@ -902,22 +886,22 @@
         regimeEl.textContent = '流動性の罠 × デフレ予想';
         regimeEl.className = 'mt-0.5 px-2 py-0.5 rounded text-[11px] font-bold bg-indigo-500/25 text-indigo-300 border border-indigo-500/40 whitespace-nowrap';
         commentEl.innerHTML =
-          `名目金利 <span class="font-mono text-sky-300">i = ${currEq.i.toFixed(2)}%</span> が下限（${ECON.i_min}%）近傍の<strong>水平なLM領域（流動性の罠）</strong>にあります。` +
-          `さらにデフレ予想（<span class="font-mono text-amber-300">π<sup>e</sup> = ${params.pie.toFixed(1)}%</span>）により実質金利 <span class="font-mono text-amber-300">r = i - π<sup>e</sup> = +${currEq.r.toFixed(2)}%</span> が高止まりし、民間投資（${currEq.I.toFixed(1)}兆円）を抑制しています。` +
-          `この領域ではマネーサプライ $M$ を増やしても名目金利が下がらず $Y$ を押し上げにくい一方、<strong>政府支出 $G$ の増加は名目金利の上昇（クラウディング・アウト）を招かずに完全な乗数効果を発揮</strong>します。`;
+          `名目金利 <span class="font-mono text-sky-300">i = ${currEq.i.toFixed(2)}%</span> が下限（${ECON.i_min}%）近傍の<strong>ほぼ水平なLM領域</strong>にあります。` +
+          `デフレ予想（<span class="font-mono text-amber-300">π<sup>e</sup> = ${params.pie.toFixed(1)}%</span>）は、同じ名目金利の下で実質金利を高めます。現在の実質金利は <span class="font-mono text-amber-300">r = ${currEq.r.toFixed(2)}%</span>、民間投資は ${currEq.I.toFixed(1)}兆円です。` +
+          `この領域では $M$ の拡大による金利低下と $Y$ の増加は小幅です。<strong>$G$ の増加による投資の押し出しは小さいもののゼロではなく</strong>、物価上昇による実質貨幣残高の減少も乗数効果を弱めます。`;
       } else if (currEq.inLiquidityTrap && params.pie >= 0) {
         regimeEl.textContent = '流動性の罠 × リフレ政策領域';
         regimeEl.className = 'mt-0.5 px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 whitespace-nowrap';
         commentEl.innerHTML =
           `LM曲線のフラットな領域（<span class="font-mono text-sky-300">i = ${currEq.i.toFixed(2)}%</span>）にあるため、名目マネーサプライ $M$ 単独の拡大効果は限定的ですが、` +
-          `<strong>期待インフレ率のプラス化（<span class="font-mono text-amber-300">π<sup>e</sup> = +${params.pie.toFixed(1)}%</span>）</strong>がフィッシャー方程式を通じて実質金利を <span class="font-mono text-amber-300">r = ${currEq.r.toFixed(2)}%</span> へと引き下げ、民間投資（${currEq.I.toFixed(1)}兆円）を刺激しています。` +
-          `また金利が下限付近にあるため、財政出動 $G$ もクラウディング・アウトを起こさずに総需要 $Y$ を強力に押し上げます。`;
+          `<strong>期待インフレ率（<span class="font-mono text-amber-300">π<sup>e</sup> = +${params.pie.toFixed(1)}%</span>）</strong>は、同じ名目金利の下で実質金利を引き下げます。現在は <span class="font-mono text-amber-300">r = ${currEq.r.toFixed(2)}%</span>、民間投資は ${currEq.I.toFixed(1)}兆円です。` +
+          `期待インフレ率はISとASの両方に作用します。財政出動 $G$ による投資の押し出しは比較的小さくなりますが、完全には消えません。`;
       } else if (params.cost > 1.0 && params.pie > 1.0) {
         regimeEl.textContent = 'コストプッシュ × インフレ転換';
         regimeEl.className = 'mt-0.5 px-2 py-0.5 rounded text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 whitespace-nowrap';
         commentEl.innerHTML =
-          `供給コストショック（<span class="font-mono text-orange-300">ε<sub>s</sub> = +${params.cost.toFixed(1)}%</span>）と期待インフレ率の上昇（<span class="font-mono text-amber-300">π<sup>e</sup> = +${params.pie.toFixed(1)}%</span>）により<strong>AS曲線が上方シフト</strong>し、物価水準（<span class="font-mono text-purple-300">P = ${currEq.P.toFixed(1)}</span>）が上昇しています。` +
-          `物価上昇によって実質マネーサプライ $M/P$ が圧縮されることでLM曲線が左上方へシフトし、名目金利 <span class="font-mono text-sky-300">i = ${currEq.i.toFixed(2)}%</span> がゼロ金利制約から離陸しています。`;
+          `供給コストショック（<span class="font-mono text-orange-300">ε<sub>s</sub> = +${params.cost.toFixed(1)}</span>）と期待インフレ率（<span class="font-mono text-amber-300">π<sup>e</sup> = +${params.pie.toFixed(1)}%</span>）は、他条件一定なら<strong>AS曲線を上方シフト</strong>させます。現在の物価は <span class="font-mono text-purple-300">P = ${currEq.P.toFixed(1)}</span> です。` +
+          `名目貨幣量一定の下で物価が上昇すると、実質貨幣残高 $m = M\\times100/P$ が減少してLMは左上方へ動きます。現在の名目金利は <span class="font-mono text-sky-300">i = ${currEq.i.toFixed(2)}%</span> です。実際の政策金利の決定過程はこのモデルには含まれません。`;
       } else {
         regimeEl.textContent = '通常のIS-LM均衡領域';
         regimeEl.className = 'mt-0.5 px-2 py-0.5 rounded text-[11px] font-bold bg-sky-500/20 text-sky-300 border border-sky-500/40 whitespace-nowrap';
@@ -955,10 +939,16 @@
 
       updateKPIsAndCommentary(currEq, baseEq, params);
 
-      // Generate Y grid for curves
+      // Keep both equilibria visible even at slider extremes.
+      const yMin = Math.max(0, Math.floor(Math.min(ECON.Y_min, baseEq.Y - 40, currEq.Y - 40) / 20) * 20);
+      const yMax = Math.ceil(Math.max(ECON.Y_max, baseEq.Y + 60, currEq.Y + 60) / 20) * 20;
+      const rateMin = Math.min(-3, currEq.r - 1, currEq.i - 1, baseEq.i - 1);
+      const rateMax = Math.max(5.8, currEq.r + 1.5, currEq.i + 1.5, baseEq.i + 1.5);
+      const pMin = Math.floor(Math.min(86, baseEq.P - 5, currEq.P - 5));
+      const pMax = Math.ceil(Math.max(118, baseEq.P + 5, currEq.P + 5));
       const Y_vals = [];
-      for (let y = ECON.Y_min; y <= ECON.Y_max; y += 4) {
-        Y_vals.push(y);
+      for (let n = 0; n <= 120; n++) {
+        Y_vals.push(yMin + (yMax - yMin) * n / 120);
       }
 
       // ------------------------------------------------------------------------
@@ -975,7 +965,7 @@
       const islmTraces = [
         // ZLB / Effective Lower Bound horizontal line
         {
-          x: [ECON.Y_min, ECON.Y_max],
+          x: [yMin, yMax],
           y: [ECON.i_min, ECON.i_min],
           mode: 'lines',
           name: `金利下限 i_min (${ECON.i_min}%)`,
@@ -985,7 +975,7 @@
         // Potential GDP Y* vertical line
         {
           x: [ECON.Y_star, ECON.Y_star],
-          y: [-3.5, 6.5],
+          y: [rateMin, rateMax],
           mode: 'lines',
           name: `潜在GDP Y* (${ECON.Y_star}兆)`,
           line: { color: 'rgba(148, 163, 184, 0.25)', width: 1.5, dash: 'dashdot' },
@@ -1041,7 +1031,7 @@
           x: [currEq.Y, currEq.Y],
           y: [currEq.i, currEq.r],
           mode: 'lines',
-          name: 'フィッシャー効果 (r = i - πᵉ)',
+          name: 'フィッシャー関係 (r = i - πᵉ)',
           line: { color: '#fbbf24', width: 2, dash: 'solid' },
           hoverinfo: 'skip',
           showlegend: false
@@ -1052,7 +1042,7 @@
           y: [baseEq.i],
           mode: 'markers+text',
           name: 'シフト前均衡 E₀',
-          text: [`E₀ (${baseEq.Y.toFixed(0)}兆, i=${baseEq.i.toFixed(2)}%)`],
+          text: ['E₀'],
           textposition: 'top left',
           textfont: { color: '#94a3b8', size: 11, family: 'JetBrains Mono' },
           marker: { color: '#94a3b8', size: 8, symbol: 'circle-open', line: { width: 2 } },
@@ -1064,7 +1054,7 @@
           y: [currEq.i],
           mode: 'markers+text',
           name: '現在均衡 E₁ (名目金利 i)',
-          text: [`E₁ (Y=${currEq.Y.toFixed(1)}兆, i=${currEq.i.toFixed(2)}%)`],
+          text: ['E₁'],
           textposition: 'top right',
           textfont: { color: '#f8fafc', size: 12, family: 'JetBrains Mono' },
           marker: {
@@ -1080,7 +1070,7 @@
           y: [currEq.r],
           mode: 'markers+text',
           name: '現在均衡 実質金利 r',
-          text: [`r=${currEq.r.toFixed(2)}% (πᵉ=${params.pie >= 0 ? '+' : ''}${params.pie.toFixed(1)}%)`],
+          text: [`r=${currEq.r.toFixed(2)}%`],
           textposition: currEq.r >= currEq.i ? 'top center' : 'bottom center',
           textfont: { color: '#fbbf24', size: 11, family: 'JetBrains Mono' },
           marker: {
@@ -1094,19 +1084,20 @@
       ];
 
       const islmLayout = {
+        autosize: true,
         paper_bgcolor: 'rgba(0,0,0,0)',
         plot_bgcolor: 'rgba(15, 23, 42, 0.5)',
         margin: { t: 18, r: 24, b: 44, l: 54 },
         font: { family: 'Inter, Noto Sans JP, sans-serif', color: '#cbd5e1', size: 11 },
         xaxis: {
           title: { text: '実質GDP Y (兆円)', font: { size: 12, color: '#94a3b8' } },
-          range: [ECON.Y_min, ECON.Y_max],
+          range: [yMin, yMax],
           gridcolor: 'rgba(51, 65, 85, 0.4)',
           zerolinecolor: 'rgba(71, 85, 105, 0.6)'
         },
         yaxis: {
           title: { text: '名目金利 i / 実質金利 r (%)', font: { size: 12, color: '#94a3b8' } },
-          range: [-3.0, 5.8],
+          range: [rateMin, rateMax],
           gridcolor: 'rgba(51, 65, 85, 0.4)',
           zeroline: true,
           zerolinecolor: 'rgba(148, 163, 184, 0.4)',
@@ -1124,13 +1115,13 @@
           {
             x: 415,
             y: ECON.i_min - 0.35,
-            text: `流動性の罠（名目金利下限 i_min = ${ECON.i_min}%）`,
+            text: `名目金利の実効下限 i_min = ${ECON.i_min}%`,
             showarrow: false,
             font: { size: 10, color: '#7dd3fc' }
           },
           {
             x: ECON.Y_star,
-            y: 5.3,
+            y: rateMax - 0.5,
             text: '潜在GDP Y*=550兆',
             showarrow: false,
             font: { size: 10, color: '#94a3b8' }
@@ -1144,8 +1135,8 @@
       // CHART 2A: Lower Left - AD-AS Diagram (Price Level P vs Real GDP Y)
       // ------------------------------------------------------------------------
       const P_vals = [];
-      for (let p = 82; p <= 122; p += 1.0) {
-        P_vals.push(p);
+      for (let n = 0; n <= 80; n++) {
+        P_vals.push(pMin + (pMax - pMin) * n / 80);
       }
 
       const baseAD_Y = P_vals.map(p => calcAD_Y(p, baselineParams));
@@ -1158,7 +1149,7 @@
         // Potential GDP Y* (Long-Run AS)
         {
           x: [ECON.Y_star, ECON.Y_star],
-          y: [82, 122],
+          y: [pMin, pMax],
           mode: 'lines',
           name: 'LRAS (潜在GDP Y*)',
           line: { color: 'rgba(148, 163, 184, 0.35)', width: 1.5, dash: 'dashdot' },
@@ -1215,7 +1206,7 @@
           y: [currEq.P],
           mode: 'markers+text',
           name: '現在 AD-AS均衡 E₁',
-          text: [`E₁ (Y=${currEq.Y.toFixed(1)}, P=${currEq.P.toFixed(1)})`],
+          text: ['E₁'],
           textposition: 'top right',
           textfont: { color: '#f8fafc', size: 11, family: 'JetBrains Mono' },
           marker: { color: '#34d399', size: 10, line: { color: '#ffffff', width: 2 } },
@@ -1224,6 +1215,7 @@
       ];
 
       const adasLayout = {
+        autosize: true,
         title: {
           text: 'AD-AS図（物価水準 P と実質GDP Y）',
           font: { size: 12, color: '#e2e8f0' },
@@ -1235,12 +1227,12 @@
         font: { family: 'Inter, Noto Sans JP, sans-serif', color: '#cbd5e1', size: 11 },
         xaxis: {
           title: { text: '実質GDP Y (兆円)', font: { size: 11, color: '#94a3b8' } },
-          range: [ECON.Y_min, ECON.Y_max],
+          range: [yMin, yMax],
           gridcolor: 'rgba(51, 65, 85, 0.4)'
         },
         yaxis: {
           title: { text: '物価水準 P (基準=100)', font: { size: 11, color: '#94a3b8' } },
-          range: [86, 118],
+          range: [pMin, pMax],
           gridcolor: 'rgba(51, 65, 85, 0.4)'
         },
         showlegend: true,
@@ -1298,6 +1290,7 @@
       ];
 
       const barLayout = {
+        autosize: true,
         title: {
           text: '主要マクロ変数（GDPギャップ・民間投資・財政赤字）',
           font: { size: 12, color: '#e2e8f0' },
@@ -1313,7 +1306,7 @@
         },
         yaxis: {
           title: { text: '兆円', font: { size: 11, color: '#94a3b8' } },
-          range: [-95, 165],
+          range: [Math.min(-95, ...baseValues, ...currValues) - 20, Math.max(165, ...baseValues, ...currValues) + 25],
           gridcolor: 'rgba(51, 65, 85, 0.4)',
           zeroline: true,
           zerolinecolor: 'rgba(148, 163, 184, 0.5)',
@@ -1342,7 +1335,7 @@
     }
 
     function applyPreset(presetKey) {
-      // When switching to a historical preset, set baseline adecuadamente so the shift is clear
+      // Each preset has a fixed comparison scenario, independent of click order.
       if (presetKey === '1990s') {
         // Compare 1990s deflationary trap against the standard neutral economy
         baselineParams = { ...PRESETS.standard };
@@ -1356,7 +1349,6 @@
         baselineParams = { ...PRESETS.standard };
       }
 
-      currentPresetKey = presetKey;
       const target = PRESETS[presetKey] || PRESETS.standard;
       writeSliders(target);
 
@@ -1380,7 +1372,6 @@
     }
 
     function setLowerView(mode) {
-      lowerViewMode = mode;
       const wAdas = document.getElementById('wrapper-adas');
       const wBars = document.getElementById('wrapper-bars');
       const tabs = {
@@ -1409,8 +1400,7 @@
       }
 
       setTimeout(() => {
-        Plotly.Plots.resize('chart-adas');
-        Plotly.Plots.resize('chart-bars');
+        resizeVisibleCharts();
       }, 50);
     }
 
@@ -1428,11 +1418,14 @@
       applyPreset('1990s');
     });
 
-    window.addEventListener('resize', () => {
-      Plotly.Plots.resize('chart-islm');
-      Plotly.Plots.resize('chart-adas');
-      Plotly.Plots.resize('chart-bars');
-    });
+    function resizeVisibleCharts() {
+      ['chart-islm', 'chart-adas', 'chart-bars'].forEach(id => {
+        const chart = document.getElementById(id);
+        if (chart.getClientRects().length) Plotly.Plots.resize(chart);
+      });
+    }
+
+    window.addEventListener('resize', resizeVisibleCharts);
   </script>
 </body>
 </html>
